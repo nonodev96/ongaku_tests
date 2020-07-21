@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-latest] # [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
       - name: Check out Git repository
@@ -35,7 +35,10 @@ jobs:
       - name: Create Release
         id: create-release
         uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          tag_name: ${{ github.ref }}
           release_name: Pre-Release ${{ matrix.os }}@${{ steps.package-version.outputs.version }}
           body: |
             Changes in this Release
@@ -51,7 +54,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          if: ${{ matrix.os == 'windows-latest' }}
-          asset_path: "./release/Ongaku ${{ steps.package-version.outputs.version }}.exe"
-          asset_name: "Ongaku ${{ steps.package-version.outputs.version }}.exe"
-          asset_content_type: application/exe
+          asset_path: "./release/Ongaku-${{ steps.package-version.outputs.version }}.AppImage"
+          asset_name: "Ongaku-${{ steps.package-version.outputs.version }}.AppImage"
+          asset_content_type: application/zip
