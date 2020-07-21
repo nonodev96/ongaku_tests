@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v1
@@ -31,9 +31,10 @@ jobs:
       - name: Show version 
         run: |
           echo "Version is ${{ steps.package-version.outputs.version }}"
+#          echo "::set-output name=upload_url::https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)/assets{?name,label}"  
 
       - name: Create Release
-        id: create-release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,10 +50,7 @@ jobs:
       
       - name: Upload URL
         run: |
-          echo "Github event   ${{ github.event }}"
-          echo "Github event   ${{ github.event.release }}"
-          echo "Create Release ${{ steps.create_release }}"
-          echo "Upload URL     ${{ steps.create_release.outputs.upload_url }}"
+          echo "Upload URL ${{ steps.create_release.outputs.upload_url }}"
       
       - name: Upload Release Asset
         id: upload-release-asset 
