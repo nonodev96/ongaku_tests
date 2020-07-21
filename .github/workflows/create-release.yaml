@@ -20,20 +20,23 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12
-
+      - run: npm install
+      - run: npm run postinstall
+        
       - name: Read package.json
         uses: tyankatsu0105/read-package-version-actions@v1
         id: package-version
         
-      - name: Show version number
-        run: echo "Version is ${{ steps.package-version.outputs.version }}"
+      - name: Show version 
+        run: |
+          echo "Version is ${{ steps.package-version.outputs.version }}"
 
       - name: Build/release Electron app
         id: build-release
         uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{ secrets.github_token }}
-          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          release: ${{ startsWith(steps.package-version.outputs.version, 'refs/tags/v') }}
 
       - name: Create Release ${{ steps.package-version.outputs.version }}
         id: create-release
