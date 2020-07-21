@@ -1,4 +1,4 @@
-name: Build/release
+name: Build/release Windows
 
 on: push
 
@@ -37,7 +37,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "${{ github.ref }}@${{ steps.package_version.outputs.version }}"
+          tag_name: "v${{ steps.package_version.outputs.version }}"
           release_name: Pre-Release ${{ matrix.os }}@${{ steps.package_version.outputs.version }}
           body: |
             Changes in this Release
