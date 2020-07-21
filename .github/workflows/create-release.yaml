@@ -1,6 +1,8 @@
-name: Build/release
+name: Build/release Ubuntu
 
-on: push
+on: 
+  push:
+    tags: 'v.*'
 
 jobs:
   release:
