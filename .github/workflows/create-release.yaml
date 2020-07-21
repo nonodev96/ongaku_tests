@@ -20,11 +20,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm install
       - run: npm run postinstall
       - run: npm run electron:build
+        env: 
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Read package.json
         uses: tyankatsu0105/read-package-version-actions@v1
