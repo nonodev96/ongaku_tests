@@ -9,7 +9,6 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        name: "Ongaku"
 
     steps:
       - name: Check out Git repository
@@ -31,7 +30,7 @@ jobs:
           # release the app after building
           release: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
-      - name: Create Release ${{ matrix.name }}
+      - name: Create Release
           id: create_release
           uses: actions/create-release@v1
           env:
