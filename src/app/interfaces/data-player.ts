@@ -1,6 +1,6 @@
 import {InterfaceSong} from './song'
 
-export interface DataPlayer {
+export interface InterfaceDataPlayer {
   analyserNodes_WeakMap: WeakMap<HTMLAudioElement, AnalyserNode>;
   mediaElementAudioSourceNode_WeakMap: WeakMap<HTMLAudioElement, MediaElementAudioSourceNode>;
   audio: HTMLAudioElement;

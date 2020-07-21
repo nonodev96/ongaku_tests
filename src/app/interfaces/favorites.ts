@@ -1,11 +1,11 @@
-export interface FavoriteToAdd {
+export interface InterfaceFavoriteToAdd {
   path: string;
 }
 
-export interface FavoriteToDelete {
+export interface InterfaceFavoriteToDelete {
   path: string;
 }
 
-export interface Favorites {
+export interface InterfaceFavorites {
   paths: string[];
 }

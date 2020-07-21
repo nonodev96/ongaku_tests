@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
-  "version": "7.2.1",
-  "description": "Angular 9 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "ongaku",
+  "version": "1.0.1",
+  "description": "",
+  "homepage": "https://github.com/nonodev96/ongaku",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "nonodev96",
+    "email": "nonodev96@gmail.com"
   },
   "keywords": [
     "angular",
@@ -94,8 +94,14 @@
     "node": ">=10.13.0"
   },
   "dependencies": {
+    "@angular/animations": "^8.0.0 || ^9.0.0-0",
+    "@angular/cdk": "~8.2.3",
+    "@angular/forms": "^8.0.0 || ^9.0.0-0",
+    "@angular/material": "8.2.3",
+    "hammerjs": "^2.0.8",
     "localforage": "^1.5.0",
     "music-metadata": "7.0.0",
+    "music-metadata-browser": "2.1.0",
     "ngforage": "6.0.0"
   }
 }

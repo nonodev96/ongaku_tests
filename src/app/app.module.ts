@@ -15,7 +15,6 @@ import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 import {HomeModule} from './home/home.module';
-import {DetailModule} from './detail/detail.module';
 
 import {AppComponent} from './app.component';
 import {AlbumComponent} from './components/album/album.component';
@@ -31,6 +30,8 @@ import {PlaylistsDetailComponent} from './components/playlists-detail/playlists-
 import {SettingsComponent} from './components/settings/settings.component';
 import {SongComponent} from './components/song/song.component';
 import {NGFORAGE_CONFIG_PROVIDER} from './ngforage.config';
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatButtonModule} from "@angular/material/button";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -46,7 +47,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CoreModule,
     SharedModule,
     HomeModule,
-    DetailModule,
     AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
@@ -54,7 +54,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    MatExpansionModule,
+    MatButtonModule
   ],
   providers: [NGFORAGE_CONFIG_PROVIDER],
   bootstrap: [AppComponent]

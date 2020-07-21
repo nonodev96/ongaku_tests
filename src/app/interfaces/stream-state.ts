@@ -1,4 +1,4 @@
-export interface StreamState {
+export interface InterfaceStreamState {
   playing: boolean;
   readableCurrentTime: string;
   readableDuration: string;

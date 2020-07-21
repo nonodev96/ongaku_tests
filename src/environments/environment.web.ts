@@ -5,5 +5,9 @@
 
 export const AppConfig = {
   production: false,
-  environment: 'DEV'
+  environment: 'DEV',
+  FAVORITES: 'FAVORITES_WEB',
+  PLAYLISTS: 'PLAYLISTS_WEB',
+  // PROTECTED PLAYLIST
+  SONGS_LOAD: 'SONGS_LOAD_WEB'
 };

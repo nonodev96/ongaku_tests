@@ -1,5 +1,8 @@
-import {Playlist} from './playlist'
+export interface InterfacePlaylist {
+  name: string;
+  paths: string[];
+}
 
-export interface Playlists {
-  playLists: Playlist[];
+export interface InterfacePlaylists {
+  playLists: InterfacePlaylist[];
 }

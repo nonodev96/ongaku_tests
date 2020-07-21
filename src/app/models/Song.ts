@@ -1,4 +1,4 @@
-import {InterfaceSong} from '../interfaces/song'
+import {InterfaceSong} from '../interfaces'
 import {IAudioMetadata} from "music-metadata";
 
 export class Song implements InterfaceSong {
@@ -10,13 +10,13 @@ export class Song implements InterfaceSong {
   imgData?: string;
   audioMetadata?: IAudioMetadata | null;
 
-  constructor(song?: any) {
+  constructor(song?: InterfaceSong) {
     this.id = song && song.id || '';
     this.title = song && song.title || '';
     this.album = song && song.album || '';
     this.artist = song && song.artist || '';
     this.src = song && song.src || '';
     this.imgData = song && song.imgData || '';
-    this.audioMetadata = song && song.audioMetadata || '';
+    this.audioMetadata = song && song.audioMetadata || null;
   }
 }
