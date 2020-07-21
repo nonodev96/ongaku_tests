@@ -18,20 +18,19 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12
-#      - run: npm install
-#      - run: npm run postinstall
-#      - run: npm run electron:build
-#        env: 
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm install
+      - run: npm run postinstall
+      - run: npm run electron:build
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Read package.json
         uses: tyankatsu0105/read-package-version-actions@v1
-        id: package-version
+        id: package_version
         
       - name: Show version 
         run: |
-          echo "Version is ${{ steps.package-version.outputs.version }}"
-#          echo "::set-output name=upload_url::https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)/assets{?name,label}"  
+          echo "Version is ${{ steps.package_version.outputs.version }}"
 
       - name: Create Release
         id: create_release
@@ -48,17 +47,13 @@ jobs:
           draft: false
           prerelease: true
       
-      - name: Upload URL
-        run: |
-          echo "Upload URL ${{ steps.create_release.outputs.upload_url }}"
-      
       - name: Upload Release Asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: "./release/Ongaku-${{ steps.package-version.outputs.version }}.AppImage"
           asset_name: "Ongaku-${{ steps.package-version.outputs.version }}.AppImage"
           asset_content_type: application/zip
