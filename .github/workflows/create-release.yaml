@@ -21,11 +21,8 @@ jobs:
           node-version: 12
 
       - name: Read package.json
-          id: package-version
-          uses: tyankatsu0105/read-package-version-actions@v1
-          with:
-            path: "./package.json"
-          run: echo "Version is ${{ steps.package-version.outputs.version }}"
+        uses: tyankatsu0105/read-package-version-actions@v1
+        id: package-version
 
       - name: Build/release Electron app
         id: build-release
