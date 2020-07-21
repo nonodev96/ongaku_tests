@@ -50,7 +50,7 @@ jobs:
       - name: Upload URL
         run: |
           echo "Github event   ${{ github.event }}"
-          echo "Github event   ${{ github.event.release.upload_url }}"
+          echo "Github event   ${{ github.event.release }}"
           echo "Create Release ${{ steps.create_release }}"
           echo "Upload URL     ${{ steps.create_release.outputs.upload_url }}"
       
