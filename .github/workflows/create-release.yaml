@@ -10,15 +10,15 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            artifact_name: "Ongaku-${{ steps.package_version.outputs.version }}.AppImage"
+            artifact_name: "Ongaku-*.AppImage"
             asset_name: "Ongaku-linux"
             asset_content_type: application/zip
           - os: windows-latest
-            artifact_name: "Ongaku-${{ steps.package_version.outputs.version }}.exe"
+            artifact_name: "Ongaku-*.exe"
             asset_name: "Ongaku-windows"
             asset_content_type: application/exe
           - os: macos-latest
-            artifact_name: "Ongaku-${{ steps.package_version.outputs.version }}.dmg"
+            artifact_name: "Ongaku-*.dmg"
             asset_name: "Ongaku-macos"
             asset_content_type: application/x-apple-diskimage
 
@@ -67,6 +67,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: "./release/${{ matrix.asset_name }}"
+          asset_path: "./release/${{ matrix.artifact_name }}"
           asset_name: "${{ matrix.asset_name }}"
           asset_content_type: ${{ matrix.asset_content_type }}
