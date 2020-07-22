@@ -7,7 +7,8 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     outputs:
-      output_1: ${{ steps.step_1.outputs.version }}
+      version: ${{ steps.step_version.outputs.version }}
+      upload_url: ${{ steps.step_upload_url.outputs.upload_url }}
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
@@ -21,9 +22,6 @@ jobs:
         uses: tyankatsu0105/read-package-version-actions@v1
         id: package_version
       
-      - id: step_1
-        run: echo "::set-output name=version::${{ steps.package_version.outputs.version }}"
-        
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -38,6 +36,13 @@ jobs:
             - Second Change
           draft: false
           prerelease: true
+
+      - id: step_version
+        run: echo "::set-output name=version::${{ steps.package_version.outputs.version }}"
+        
+      - id: step_upload_url
+        run: echo "::set-output name=upload_url::${{ steps.create_release.outputs.upload_url }}"
+
 
   release:
     needs: Make_GitHub_Release
@@ -76,9 +81,9 @@ jobs:
         env:
           RUNNER_CONTEXT: ${{ toJson( needs.Make_GitHub_Release ) }}
         run: |
-          echo "Version is ${{ steps.package_version.outputs.version }}"
           echo "$RUNNER_CONTEXT"
-          echo "Upload URL ${{  github.event.release.upload_url }}"
+          echo "Version is ${{ needs.Make_GitHub_Release.outputs.version }}"
+          echo "Upload URL ${{ needs.Make_GitHub_Release.outputs.upload_url }}"
       
       - run: npm install
       - run: npm run postinstall
@@ -92,7 +97,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.Make_GitHub_Release.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
           asset_path: "./release/${{ matrix.artifact_name }}"
           asset_name: "${{ matrix.asset_name }}"
           asset_content_type: ${{ matrix.asset_content_type }}
