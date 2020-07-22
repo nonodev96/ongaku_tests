@@ -5,7 +5,7 @@ on:
     tags: 'v.*'
 
 jobs:
-  release:
+  Ubuntu_release:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -40,8 +40,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "${{ github.ref }}@${{ steps.package_version.outputs.version }}"
-          release_name: Pre-Release ${{ matrix.os }}@${{ steps.package_version.outputs.version }}
+          tag_name: "v${{ steps.package_version.outputs.version }}"
+          release_name: Pre-Release v${{ steps.package_version.outputs.version }}
           body: |
             Changes in this Release
             - First Change
@@ -59,3 +59,59 @@ jobs:
           asset_path: "./release/Ongaku-${{ steps.package_version.outputs.version }}.AppImage"
           asset_name: "Ongaku-${{ steps.package_version.outputs.version }}.AppImage"
           asset_content_type: application/zip
+  
+  
+  Windows_release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest] # [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm install
+      - run: npm run postinstall
+      - run: npm run electron:build
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Read package.json
+        uses: tyankatsu0105/read-package-version-actions@v1
+        id: package_version
+        
+      - name: Show version 
+        run: |
+          echo "Version is ${{ steps.package_version.outputs.version }}"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "v${{ steps.package_version.outputs.version }}"
+          release_name: Pre-Release v${{ steps.package_version.outputs.version }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: true
+      
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: "./release/Ongaku-${{ steps.package_version.outputs.version }}.exe"
+          asset_name: "Ongaku-${{ steps.package_version.outputs.version }}.exe"
+          asset_content_type: application/exe
